@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  api:
+    build: .
+    container_name: email-api
+    command: node src/server.js
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - redis
+
+  transactional-worker:
+    build: .
+    container_name: transactional-worker
+    command: node src/workers/transactionalWorkers.js
+    env_file:
+      - .env
+    depends_on:
+      - redis
+
+  business-worker:
+    build: .
+    container_name: business-worker
+    command: node src/workers/businessWorkers.js
+    env_file:
+      - .env
+    depends_on:
+      - redis
