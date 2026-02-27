@@ -17,3 +17,14 @@ email-service/
 │
 ├── package.json
 
+
+## How to run on docker
+To Run the project on Docker:
+docker-compose up --build
+
+To Check logs
+docker logs
+
+To check the processes running:
+docker ps
+
